@@ -3,7 +3,7 @@
 </script>
 
 <head>
-  {include('../partials/head.svelte', {title: "GERVAC | Registro", scripts: ['/js/auth/register.js']})}
+  {include('../partials/head.svelte', {title: "GERVAC | Paciente"})}
 </head>
 
 <div class="app-wrapper">
@@ -19,8 +19,10 @@
       <p>Seu cadastro está validado, aguarde pelo agendamento da sua 1º dose</p>
     </div>
     <div class="paciente-btns">
-      <a class="btn btn-primary" href="/auth/register">Sair</a>
-      <button class="btn btn-primary">Editar Cadastro</button>
+      <form method="POST" action ="/auth/logout">
+        <button class="btn btn-primary" type="submit">Sair</button>
+      </form>
+      <a class="btn btn-primary" href="/paciente/editar">Editar Cadastro</a>
     </div>
   </div>
 </div>
