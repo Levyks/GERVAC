@@ -30,16 +30,15 @@ class PacienteController extends BaseController {
 
     } else {
       switch(paciente.statusVacinacao) {
-        case 0:
-          statusMessage = "Seu cadastro está validado, aguarde pelo agendamento da sua 1º dose";
-          break;
         case 1:
           statusMessage = "Você já tomou a 1º dose, aguarde pelo agendamento da sua 2º dose";
           break;
         case 2:
           statusMessage = "Você já tomou a 2º dose";
           break;
-        
+        default:
+          statusMessage = "Seu cadastro está validado, aguarde pelo agendamento da sua 1º dose";
+          break;
       }
     }
 
