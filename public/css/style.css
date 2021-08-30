@@ -1,0 +1,148 @@
+html, body {
+  height: 100%;
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+/*---AUTH---*/
+.auth-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+}
+
+.auth-card {
+  max-width: 100%;
+
+  border-radius: 10px;
+  background-color: #f3f3f3;
+
+  padding: 20px;
+}
+
+.login-card {
+  width: 480px;
+  height: 360px;
+}
+
+.register-card {
+  width: 720px;
+  height: 640px;
+}
+
+.auth-card > form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.auth-card .btn {
+  font-size: 20px;
+}
+
+.auth-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.auth-header > * {
+  flex: 1;
+}
+
+.auth-header h1 {
+  white-space: nowrap;
+}
+
+.input-container {
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.input-column {
+  flex-grow: 1;
+  margin: 0 10px;
+}
+
+.register-sair {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  font-size: 64px;
+}
+/*--/AUTH---*/
+
+.app-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/*---PACIENTE---*/
+.paciente-container {
+  flex-grow: 1;
+  padding-bottom: 50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  text-align: center;
+}
+
+.paciente-container p {
+  margin-bottom: 5px;
+}
+
+.paciente-info {
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.paciente-status {
+  font-size: 28px;
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 5px;
+
+  max-width: 400px;
+}
+
+.paciente-btns {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paciente-btns > .btn {
+  margin: 0 20px;
+  min-width: 100px;
+}
+
+
+/*--/PACIENTE--*/
+
+@media (max-width: 768px){ 
+  .auth-header h1 {
+    white-space: normal;
+  } 
+  
+  .register-card, .auth-wrapper {
+    height: auto;
+  }
+}
