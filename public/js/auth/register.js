@@ -16,6 +16,8 @@ $(() => {
     }
   });
 
+  $('#cpfInput').trigger('input');
+
   $('#telefoneInput').on('keydown', (e) => {
     const numeroLen = e.target.value.length;
     if(e.key === 'Backspace' && ['(', '-'].includes(e.target.value[numeroLen-1])) {
@@ -27,6 +29,8 @@ $(() => {
   $('#telefoneInput').on('input', (e) => {
     e.target.value = formatarTelefone(e.target.value);
   });
+
+  $('#telefoneInput').trigger('input');
 
   function formatarTelefone(numero) {
     numero = numero.replace(/\D/g, "");

@@ -1,5 +1,6 @@
 <script id="esbelto">
   let include = getInclude();
+  let { paciente, statusMessage } = getVariables();
 </script>
 
 <head>
@@ -11,18 +12,18 @@
   <div class="container paciente-container mt-2">
     <h1 class="text-center">Situação Cadastral</h1>
     <div class="paciente-info">
-      <h3>FULANO DA SILVA COSTA</h3>
-      <p>fulano.silva@gmail.com</p>
-      <p>(85)4002-8922</p>
+      <h3>{paciente.nome.toUpperCase()}</h3>
+      <p>{paciente.email}</p>
+      <p>{paciente.telefone}</p>
     </div>
     <div class="paciente-status">
-      <p>Seu cadastro está validado, aguarde pelo agendamento da sua 1º dose</p>
+      <p>{statusMessage}</p>
     </div>
     <div class="paciente-btns">
       <form method="POST" action ="/auth/logout">
         <button class="btn btn-primary" type="submit">Sair</button>
       </form>
-      <a class="btn btn-primary" href="/paciente/editar">Editar Cadastro</a>
+      <a class="btn btn-primary" href="/paciente/edit">Editar Cadastro</a>
     </div>
   </div>
 </div>

@@ -13,6 +13,7 @@ class Paciente extends Usuario {
     this.id = data.id;
     this.comorbidade = !!data.comorbidade;
     this.profissao = data.profissao;
+    this.statusVacinacao = data.statusVacinacao;
     this.vacinadoCom = data.vacinadoCom;
     this.agendadoPara = data.agendadoPara;
   }

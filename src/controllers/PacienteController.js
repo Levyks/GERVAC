@@ -3,6 +3,8 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 const isAuthenticatedNotAdmin = require('../middleware/isAuthenticatedNotAdmin');
 const Paciente = require('../models/Paciente');
 
+const Utils = require('../helpers/utils');
+
 class PacienteController extends BaseController {
   static baseUrl = '/paciente';
 
@@ -13,13 +15,66 @@ class PacienteController extends BaseController {
 
     this.setRoutes({
       '/': {GET: this.dashboard_get},
-      '/dashboard': {GET: this.dashboard_get}
+      '/dashboard': {GET: this.dashboard_get},
+      '/edit': {GET: this.edit_get, POST:this.edit_post}
     });
   }
 
   dashboard_get(req, res) {
-    console.log(req.user);
-    res.render('paciente/dashboard');
+    const paciente = Paciente.find({usuarioId: req.user.id}, true);
+    if(!paciente) return res.sendStatus(404);
+
+    let statusMessage;
+
+    if(paciente.agendadoPara) {
+
+    } else {
+      switch(paciente.statusVacinacao) {
+        case 0:
+          statusMessage = "Seu cadastro está validado, aguarde pelo agendamento da sua 1º dose";
+          break;
+        case 1:
+          statusMessage = "Você já tomou a 1º dose, aguarde pelo agendamento da sua 2º dose";
+          break;
+        case 2:
+          statusMessage = "Você já tomou a 2º dose";
+          break;
+        
+      }
+    }
+
+    res.render('paciente/dashboard', {
+      paciente: {
+        nome: paciente.nome,
+        email: paciente.email,
+        telefone: Utils.formatarTelefone(paciente.telefone)
+      },
+      statusMessage
+    });
+  }
+
+  edit_get(req, res) {
+    const paciente = Paciente.find({usuarioId: req.user.id}, true);
+    if(!paciente) return res.sendStatus(404);
+
+    console.log(paciente);
+
+    res.render('paciente/edit', {
+      values: {
+        nome: paciente.nome,
+        cpf: paciente.cpf,
+        nascimento: paciente.nascimento.toISOString().split('T')[0],
+        profissao: paciente.profissao,
+        comorbidade: paciente.comorbidade,
+        telefone: paciente.telefone,
+        endereco: paciente.endereco,
+        email: paciente.email
+      }
+    });
+  }
+
+  edit_post(req, res) {
+    
   }
 
 }
