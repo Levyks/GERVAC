@@ -22,7 +22,7 @@ class Paciente extends Usuario {
     
     return {
       paciente: {
-        comorbidade: formData.comorbidade,
+        comorbidade: parseInt(formData.comorbidade),
         profissao: formData.profissao
       },
       usuario: {
@@ -51,6 +51,20 @@ class Paciente extends Usuario {
     BaseModel.prototype.save.call(paciente);
     
     this.id = paciente.id;
+  }
+
+  statusVacinadoStr(){
+    switch(this.statusVacinacao){
+      case 1:
+        return "D1";
+        break;
+      case 2:
+        return "D2";
+        break;
+      default:
+        return "Não";
+        break;
+    }
   }
   
 }

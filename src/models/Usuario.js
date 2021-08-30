@@ -38,6 +38,12 @@ class Usuario extends BaseModel {
   setPassword(plainPassword) {
     this.password = bcrypt.hashSync(plainPassword, PASSWORD_SALT_ROUNDS);
   }
+
+  calcIdade() {
+    var ageDifMs = Date.now() - this.nascimento.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
   
 }
 

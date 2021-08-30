@@ -3,6 +3,8 @@ const BaseController = require('./BaseController');
 const isAuthenticated = require('../middleware/isAuthenticated');
 const isAuthenticatedAdmin = require('../middleware/isAuthenticatedAdmin');
 
+const Paciente = require('../models/Paciente');
+
 class AdminController extends BaseController {
   static baseUrl = '/admin';
 
@@ -18,7 +20,8 @@ class AdminController extends BaseController {
   }
 
   dashboard_get(req, res) {
-    res.render('admin/dashboard');
+    const pacientes = Paciente.find({});
+    res.render('admin/dashboard', {pacientes: pacientes});
   }
 
 }
