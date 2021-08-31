@@ -13,7 +13,7 @@ class Usuario extends BaseModel {
   constructor(data, useCompleteIdName = false) {
     super();
     if(!data) return;
-    this[useCompleteIdName ? Usuario.idField : 'id'] = data.id;
+    this[useCompleteIdName ? Usuario.idField : 'id'] = data.usuarioId || data.id;
     this.nome = data.nome;
     this.cpf = data.cpf;
     this.email = data.email;
