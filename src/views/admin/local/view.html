@@ -32,7 +32,16 @@
               <td>{local.id}</td>
               <td>{local.nome}</td>
               <td>{local.endereco}</td>
-              <td></td>
+              <td>
+                <form method="POST" onSubmit="return confirm('Deseja deletar o local {local.id}?')" action="/admin/local/delete/{local.id}">
+                  <a class="btn" href="/admin/local/edit/{local.id}" title="Editar local">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button type="submit" class="btn text-danger" title="Excluir usuário">
+                    <i class="fas fa-times"></i>
+                  </button> 
+                </form>
+              </td>
             </tr>
           {/each}
         </tbody>

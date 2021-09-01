@@ -85,6 +85,12 @@ class BaseModel {
     }
   }
 
+  static delete(id) {
+    const sql = `DELETE FROM ${this.table} WHERE id = ?`;
+    const stmt = db.prepare(sql);
+    stmt.run([id]);
+  }
+
   static find(conditions = {}, onlyFirst = false, limit = false, offset = 0) {
     let sql = `SELECT * FROM ${this.table} `;
 

@@ -22,7 +22,8 @@ class AdminController extends BaseController {
       '/local': {GET: this.local_view_get},
       '/local/view': {GET: this.local_view_get},
       '/local/add': {GET: this.local_add_get, POST: this.local_add_post},
-      '/local/edit/:localId': {GET: this.local_edit_get},
+      '/local/edit/:localId': {GET: this.local_edit_get, POST: this.local_edit_post},
+      '/local/delete/:localId': {POST: this.local_delete_post}
     });
   }
 
@@ -48,7 +49,27 @@ class AdminController extends BaseController {
   }
 
   local_edit_get(req, res) {
-    res.send("TO DO");
+    const id = req.params.localId;
+    const local = Local.find({id}, true);
+
+    res.render('admin/local/edit', {local: local});
+  }
+
+  local_edit_post(req, res) {
+    const id = req.params.localId;
+    const local = Local.find({id}, true);  
+    local.nome = req.body.nome;
+    local.endereco = req.body.endereco;
+    local.save();
+    
+    res.redirect('/admin/local/view');
+  }
+
+  local_delete_post(req, res) {
+    const id = req.params.localId;
+    Local.delete(id);
+
+    res.redirect('/admin/local/view');
   }
 
   atualizar_post(req, res) {
