@@ -85,7 +85,7 @@ class BaseModel {
     }
   }
 
-  static find(conditions, onlyFirst = false, limit = false, offset = 0) {
+  static find(conditions = {}, onlyFirst = false, limit = false, offset = 0) {
     let sql = `SELECT * FROM ${this.table} `;
 
     const superClass = Object.getPrototypeOf(this);
