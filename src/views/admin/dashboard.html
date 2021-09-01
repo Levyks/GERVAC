@@ -4,12 +4,12 @@
 </script>
 
 <head>
-  {include('../partials/head.html', {title: "GERVAC | Registro", scripts: ['/js/auth/register.js']})}
+  {include('../partials/head.html', {title: "GERVAC | Administração"})}
 </head>
 
 <body>
   <div class="app-wrapper">
-    {include('./navbar.html')}
+    {include('./navbar.html', {active: "dashboard"})}
     <div class="container app-container text-center mt-2">
       <form method="POST" action="/admin/atualizar">
         <h3>População Cadastrada</h3>
