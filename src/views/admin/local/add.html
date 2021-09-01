@@ -1,4 +1,29 @@
-<script id="esbelto"></script>
+<script id="esbelto">
+  let include = getInclude();
+</script>
 
+<head>
+  {include('../../partials/head.html', {title: "GERVAC | Administração"})}
+</head>
 
-
+<body>
+  <div class="app-wrapper">
+    {include('../navbar.html', {active: "locais"})}
+    <div class="container app-container text-center mt-2">
+      <h3>Cadastrar Local</h3>
+      <form class="text-start" method="POST">
+        <div class="mb-3">
+          <label for="nome-input" class="form-label">Nome</label>
+          <input class="form-control" name="nome" id="nome-input" required>
+        </div>
+        <div class="mb-3">
+          <label for="endereco-input" class="form-label">Endereço</label>
+          <input class="form-control" name="endereco" id="endereco-input" required>
+        </div>
+        <div class="w-100 text-center">
+          <button type="submit" class="btn btn-primary">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>

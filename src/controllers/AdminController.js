@@ -21,7 +21,7 @@ class AdminController extends BaseController {
 
       '/local': {GET: this.local_view_get},
       '/local/view': {GET: this.local_view_get},
-      '/local/add': {GET: this.local_add_get},
+      '/local/add': {GET: this.local_add_get, POST: this.local_add_post},
       '/local/edit/:localId': {GET: this.local_edit_get},
     });
   }
@@ -37,7 +37,14 @@ class AdminController extends BaseController {
   }
 
   local_add_get(req, res) {
-    res.send("TO DO");
+    res.render('admin/local/add');
+  }
+
+  local_add_post(req, res) {
+    const local = new Local({nome: req.body.nome, endereco: req.body.endereco});
+    local.save();
+
+    res.redirect('/admin/local/view');
   }
 
   local_edit_get(req, res) {
