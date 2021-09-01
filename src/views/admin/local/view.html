@@ -1,0 +1,42 @@
+<script id="esbelto">
+  let include = getInclude();
+  let {locais} = getVariables();
+</script>
+
+<head>
+  {include('../../partials/head.html', {title: "GERVAC | Administração"})}
+</head>
+
+<body>
+  <div class="app-wrapper">
+    {include('../navbar.html', {active: "locais"})}
+    <div class="container app-container text-center mt-2">
+      <h3>Locais Cadastrados</h3>
+      <div class="w-100 text-start">
+        <a class="btn btn-primary" title="Adicionar novo usuário" href="/admin/local/add">
+          <i class="fas fa-plus"></i>
+        </a>
+      </div>
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Endereço</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each locais as local}
+            <tr>
+              <td>{local.id}</td>
+              <td>{local.nome}</td>
+              <td>{local.endereco}</td>
+              <td></td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>

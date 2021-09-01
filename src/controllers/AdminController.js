@@ -4,6 +4,7 @@ const isAuthenticated = require('../middleware/isAuthenticated');
 const isAuthenticatedAdmin = require('../middleware/isAuthenticatedAdmin');
 
 const Paciente = require('../models/Paciente');
+const Local = require('../models/Local');
 
 class AdminController extends BaseController {
   static baseUrl = '/admin';
@@ -16,13 +17,31 @@ class AdminController extends BaseController {
     this.setRoutes({
       '/': {GET: this.dashboard_get},
       '/dashboard': {GET: this.dashboard_get},
-      '/atualizar': {POST: this.atualizar_post}
+      '/atualizar': {POST: this.atualizar_post},
+
+      '/local': {GET: this.local_view_get},
+      '/local/view': {GET: this.local_view_get},
+      '/local/add': {GET: this.local_add_get},
+      '/local/edit/:localId': {GET: this.local_edit_get},
     });
   }
 
   dashboard_get(req, res) {
-    const pacientes = Paciente.find({});
+    const pacientes = Paciente.find();
     res.render('admin/dashboard', {pacientes: pacientes});
+  }
+
+  local_view_get(req, res) {
+    const locais = Local.find()
+    res.render('admin/local/view', {locais: locais});
+  }
+
+  local_add_get(req, res) {
+    res.send("TO DO");
+  }
+
+  local_edit_get(req, res) {
+    res.send("TO DO");
   }
 
   atualizar_post(req, res) {
