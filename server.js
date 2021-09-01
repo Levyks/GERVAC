@@ -11,8 +11,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.engine('svelte', esbelto.express);
-app.set('view engine', 'svelte');
+app.engine('html', esbelto.express);
+app.set('view engine', 'html');
 app.set('views', './src/views');
 
 app.use(express.static('./public'));
