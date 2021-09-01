@@ -12,8 +12,13 @@ class BaseController {
 
   setRoutes(routes) {
     const middleware = this.constructor.middleware || this.midlewareNoop;
-    this.router.all(Object.keys(routes), middleware, (req, res) => {
-      return routes[req._parsedUrl.pathname][req.method].call(this, req, res);
+
+    Object.keys(routes).forEach(route => {
+      Object.keys(routes[route]).forEach(method => {
+        this.router[method.toLowerCase()](route, middleware, (req, res) => {
+          return routes[route][method].call(this, req, res);
+        });
+      });
     });
   }
 
