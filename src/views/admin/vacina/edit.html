@@ -1,0 +1,34 @@
+<script id="esbelto">
+  let include = getInclude();
+  let {vacina} = getVariables();
+</script>
+
+<head>
+  {include('../../partials/head.html', {title: "GERVAC | Administração"})}
+</head>
+
+<body>
+  <div class="app-wrapper">
+    {include('../navbar.html', {active: "vacinas"})}
+    <div class="container app-container text-center mt-2">
+      <h3>Editar Vacina</h3>
+      <form class="text-start form-pequeno" method="POST">
+        <div class="mb-3">
+          <label for="fabricante-input" class="form-label">Nome</label>
+          <input class="form-control" name="fabricante" id="fabricante-input" value="{vacina.fabricante}" required>
+        </div>
+        <div class="mb-3">
+          <label for="doses-input" class="form-label">Doses Necessárias</label>
+          <input class="form-control" name="dosesNecessarias" id="doses-input" value="{vacina.dosesNecessarias}" required>
+        </div>
+        <div class="mb-3">
+          <label for="intervalo-input" class="form-label">Intervalo entre doses (dias)</label>
+          <input class="form-control" name="intervaloEntreDoses" id="intervalo-input" value="{vacina.intervaloEntreDoses}" required>
+        </div>
+        <div class="w-100 text-center">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>

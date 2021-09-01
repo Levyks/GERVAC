@@ -1,0 +1,33 @@
+<script id="esbelto">
+  let include = getInclude();
+</script>
+
+<head>
+  {include('../../partials/head.html', {title: "GERVAC | Administração"})}
+</head>
+
+<body>
+  <div class="app-wrapper">
+    {include('../navbar.html', {active: "vacinas"})}
+    <div class="container app-container text-center mt-2">
+      <h3>Cadastrar Vacina</h3>
+      <form class="text-start form-pequeno" method="POST">
+        <div class="mb-3">
+          <label for="fabricante-input" class="form-label">Nome</label>
+          <input class="form-control" name="fabricante" id="fabricante-input" required>
+        </div>
+        <div class="mb-3">
+          <label for="doses-input" class="form-label">Doses Necessárias</label>
+          <input class="form-control" name="dosesNecessarias" id="doses-input" required>
+        </div>
+        <div class="mb-3">
+          <label for="intervalo-input" class="form-label">Intervalo entre doses (dias)</label>
+          <input class="form-control" name="intervaloEntreDoses" id="intervalo-input" required>
+        </div>
+        <div class="w-100 text-center">
+          <button type="submit" class="btn btn-primary">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>

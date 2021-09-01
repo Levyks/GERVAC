@@ -1,0 +1,53 @@
+<script id="esbelto">
+  let include = getInclude();
+  let {vacinas} = getVariables();
+</script>
+
+<head>
+  {include('../../partials/head.html', {title: "GERVAC | Administração"})}
+</head>
+
+<body>
+  <div class="app-wrapper">
+    {include('../navbar.html', {active: "vacinas"})}
+    <div class="container app-container text-center mt-2">
+      <h3>Vacinas Cadastradas</h3>
+      <div class="w-100 text-start">
+        <a class="btn btn-primary" title="Adicionar novo vacina" href="/admin/vacina/add">
+          <i class="fas fa-plus"></i>
+        </a>
+      </div>
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Fabricante</th>
+            <th scope="col">Doses necessárias</th>
+            <th scope="col">Intervalo entre doses</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each vacinas as vacina}
+            <tr>
+              <td>{vacina.id}</td>
+              <td>{vacina.fabricante}</td>
+              <td>{vacina.dosesNecessarias}</td>
+              <td>{vacina.intervaloEntreDoses}</td>
+              <td>
+                <form method="POST" onSubmit="return confirm('Deseja deletar a vacina {vacina.id}?')" action="/admin/vacina/delete/{vacina.id}">
+                  <a class="btn" href="/admin/vacina/edit/{vacina.id}" title="Editar vacina">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <button type="submit" class="btn text-danger" title="Excluir vacina">
+                    <i class="fas fa-times"></i>
+                  </button> 
+                </form>
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>

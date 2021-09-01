@@ -139,8 +139,12 @@ html, body {
   min-width: 100px;
 }
 
-
 /*--/PACIENTE--*/
+
+.form-pequeno {
+  margin: 0 auto;
+  max-width: 600px;
+}
 
 @media (max-width: 768px){ 
   .auth-header h1 {
