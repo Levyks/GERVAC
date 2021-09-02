@@ -27,7 +27,7 @@ class PacienteController extends BaseController {
 
   async dashboard_get(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Paciente);
-    const paciente = await repository.findOne({usuarioId: req.user.id});
+    const paciente = await repository.findOne({id: req.user.id});
     if(!paciente) return res.sendStatus(404);
 
     let statusMessage;
@@ -60,7 +60,7 @@ class PacienteController extends BaseController {
 
   async edit_get(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Paciente);
-    const paciente = await repository.findOne({usuarioId: req.user.id});
+    const paciente = await repository.findOne({id: req.user.id});
 
     if(!paciente) return res.sendStatus(404);
 

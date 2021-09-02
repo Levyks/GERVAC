@@ -3,13 +3,15 @@ import jwt from 'jsonwebtoken';
 
 const PASSWORD_SALT_ROUNDS = 10;
 
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, TableInheritance } from "typeorm";
+import BaseModel from './BaseModel';
 
 @Entity()
-export default class Usuario {
+@TableInheritance({ column: { type: "varchar", name: "type" } })
+export default class Usuario extends BaseModel {
 
-  @PrimaryGeneratedColumn()
-  usuarioId: number;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   nome: string;
@@ -32,7 +34,7 @@ export default class Usuario {
   @Column()
   endereco: string;
 
-  @Column()
+  @Column('boolean', {default: false})
   isAdmin: boolean;
 
   autenticar(senhaInserida: string): boolean {
@@ -41,7 +43,7 @@ export default class Usuario {
 
   generateJwt(): string {
     return jwt.sign({
-      id: this.usuarioId,
+      id: this.id,
       isAdmin: this.isAdmin
     }, process.env.SECRET, { expiresIn: '6h' });
   }

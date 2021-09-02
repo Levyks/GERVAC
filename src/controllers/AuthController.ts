@@ -5,7 +5,7 @@ import Paciente from '../models/Paciente';
 import jwt from 'jsonwebtoken';
 
 import express from 'express';
-import { getConnection } from 'typeorm';
+import { getConnection, TypeORMError } from 'typeorm';
 
 class AuthController extends BaseController {
   baseUrl = '/auth';
@@ -73,7 +73,7 @@ class AuthController extends BaseController {
     res.render('auth/register', req.query);
   }
 
-  register_post(req: express.Request, res: express.Response) {
+  async register_post(req: express.Request, res: express.Response) {
 
     const requiredFields = ['nome', 'cpf', 'nascimento', 'profissao', 'comorbidade', 'telefone', 'endereco', 'email', 'password'];
 
@@ -81,6 +81,7 @@ class AuthController extends BaseController {
 
     const paciente = new Paciente();
 
+    await paciente.generateId();
     paciente.nome = req.body.nome;
     paciente.cpf = req.body.cpf.replace( /\D/g , ""),
     paciente.email = req.body.email;
@@ -92,14 +93,18 @@ class AuthController extends BaseController {
     paciente.comorbidade = req.body.comorbidade == 1;
     paciente.profissao = req.body.profissao;
 
-    paciente.setPassword(req.body.password)
+    paciente.setPassword(req.body.password);
 
     const repository = getConnection().getRepository(Paciente);
-    repository.save(paciente);
-
-    //if(err.message === "UNIQUE constraint failed: usuario.cpf") return res.status(400).redirect('auth/register?error=CPF já cadastrado');
-
-    res.redirect('/auth/login?success=Cadastrado com sucesso');
+    repository.save(paciente).then(() => {
+      return res.redirect('/auth/login?success=Cadastrado com sucesso');
+    }).catch((error: TypeORMError) => {
+      if(error.message === 'SqliteError: UNIQUE constraint failed: usuario.cpf') {
+        return res.status(400).redirect('/auth/login?error=CPF já cadastrado');
+      } else {
+        return res.status(500).redirect('/auth/register?error=Algo deu errado');
+      }
+    });
   }
 
   logout_post(req: express.Request, res: express.Response) {

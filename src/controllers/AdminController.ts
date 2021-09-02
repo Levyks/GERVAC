@@ -58,10 +58,10 @@ class AdminController extends BaseController {
     const connection = getConnection();
 
     req.body.pacientes.forEach(async (pacienteId: number) => {
-      const paciente = await connection.getRepository(Paciente).findOne({pacienteId});
+      const paciente = await connection.getRepository(Paciente).findOne({id: pacienteId});
 
-      if(paciente.vacinadoCom &&  paciente.vacinadoCom.vacinaId != parseInt(req.body.vacina)) return;
-      paciente.vacinadoCom = await connection.getRepository(Vacina).findOne({vacinaId: req.body.vacina});
+      if(paciente.vacinadoCom &&  paciente.vacinadoCom.id != parseInt(req.body.vacina)) return;
+      paciente.vacinadoCom = await connection.getRepository(Vacina).findOne({id: req.body.vacina});
 
       if(!paciente.statusVacinacao) {
         paciente.statusVacinacao = 0;
@@ -90,37 +90,44 @@ class AdminController extends BaseController {
   local_add_post(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Local);
     const local = new Local();
+
+    local.generateId();
     local.nome = req.body.nome;
     local.endereco = req.body.endereco;
-    repository.save(local);
 
-    res.redirect('/admin/local/list');
+    repository.save(local).then(() => {
+      return res.redirect('/admin/local/list');
+    }).catch(() => {
+      return res.status(500).redirect('/admin/local/list');
+    })
   }
 
   async local_edit_get(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Local);
-    const localId = parseInt(req.params.localId);
-    const local = await repository.findOne({localId});
+    const id = parseInt(req.params.localId);
+    const local = await repository.findOne({id});
 
     res.render('admin/local/edit', {local: local});
   }
 
   async local_edit_post(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Local);
-    const localId = parseInt(req.params.localId);
+    const id = parseInt(req.params.localId);
 
-    const local = await repository.findOne({localId}); 
+    const local = await repository.findOne({id}); 
     local.nome = req.body.nome;
     local.endereco = req.body.endereco;
-    repository.save(local);
-    
-    res.redirect('/admin/local/list');
+    repository.save(local).then(() => {
+      return res.redirect('/admin/local/list');
+    }).catch(() => {
+      return res.status(500).redirect('/admin/local/list');
+    });
   }
 
   async local_delete_post(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Local);
-    const localId = parseInt(req.params.localId);
-    const local = await repository.findOne({localId});
+    const id = parseInt(req.params.localId);
+    const local = await repository.findOne({id});
     repository.remove(local);
 
     res.redirect('/admin/local/list');
@@ -144,20 +151,23 @@ class AdminController extends BaseController {
 
     const vacina = new Vacina();
     
+    vacina.generateId();
     vacina.fabricante = req.body.fabricante;
     vacina.dosesNecessarias = req.body.dosesNecessarias;
     vacina.intervaloEntreDoses = req.body.intervaloEntreDoses;
 
-    repository.save(vacina);
-
-    res.redirect('/admin/vacina/list');
+    repository.save(vacina).then(() => {
+      return res.redirect('/admin/vacina/list');
+    }).catch(() => {
+      return res.status(500).redirect('/admin/vacina/list');
+    });
   }
 
   async vacina_edit_get(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Vacina);
 
-    const vacinaId = parseInt(req.params.vacinaId);
-    const vacina = await repository.findOne({vacinaId});
+    const id = parseInt(req.params.vacinaId);
+    const vacina = await repository.findOne({id});
 
     res.render('admin/vacina/edit', {vacina: vacina});
   }
@@ -165,21 +175,23 @@ class AdminController extends BaseController {
   async vacina_edit_post(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Vacina);
 
-    const vacinaId = parseInt(req.params.vacinaId);
-    const vacina = await repository.findOne({vacinaId});  
+    const id = parseInt(req.params.vacinaId);
+    const vacina = await repository.findOne({id});  
     vacina.fabricante = req.body.fabricante;
     vacina.dosesNecessarias = req.body.dosesNecessarias;
     vacina.intervaloEntreDoses = req.body.intervaloEntreDoses;
-    repository.save(vacina);
-    
-    res.redirect('/admin/vacina/list');
+    repository.save(vacina).then(() => {
+      return res.redirect('/admin/vacina/list');
+    }).catch(() => {
+      return res.status(500).redirect('/admin/vacina/list');
+    });
   }
 
   async vacina_delete_post(req: express.Request, res: express.Response) {
     const repository = getConnection().getRepository(Vacina);
 
-    const vacinaId = parseInt(req.params.vacinaId);
-    const vacina = await repository.findOne({vacinaId});  
+    const id = parseInt(req.params.vacinaId);
+    const vacina = await repository.findOne({id});  
     repository.remove(vacina);
 
     res.redirect('/admin/vacina/list');

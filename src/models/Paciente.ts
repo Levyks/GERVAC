@@ -1,13 +1,13 @@
 import Usuario from './Usuario';
 import Vacina from './Vacina';
 
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { ChildEntity, Column, PrimaryColumn, ManyToOne } from "typeorm";
 
-@Entity()
+@ChildEntity()
 export default class Paciente extends Usuario {
 
-  @PrimaryGeneratedColumn()
-  pacienteId: number;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   comorbidade: boolean;

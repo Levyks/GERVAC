@@ -1,10 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn } from "typeorm";
+import BaseModel from "./BaseModel";
 
 @Entity()
-export default class Local { 
+export default class Local extends BaseModel { 
   
-  @PrimaryGeneratedColumn()
-  localId: number;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   nome: string;
