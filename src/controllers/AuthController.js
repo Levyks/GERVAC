@@ -67,7 +67,6 @@ class AuthController extends BaseController {
   }
 
   register_post(req, res, self = this) {
-    console.log(req.body);
 
     const requiredFields = ['nome', 'cpf', 'nascimento', 'profissao', 'comorbidade', 'telefone', 'endereco', 'email', 'password'];
 

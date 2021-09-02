@@ -17,17 +17,19 @@ class AdminController extends BaseController {
 
     this.setRoutes({
       '/': {GET: this.dashboard_get},
+
       '/dashboard': {GET: this.dashboard_get},
       '/atualizar': {POST: this.atualizar_post},
+      '/vacinar': {POST: this.vacinar_post},
 
-      '/local': {GET: this.local_view_get},
-      '/local/view': {GET: this.local_view_get},
+      '/local': {GET: this.local_list_get},
+      '/local/list': {GET: this.local_list_get},
       '/local/add': {GET: this.local_add_get, POST: this.local_add_post},
       '/local/edit/:localId': {GET: this.local_edit_get, POST: this.local_edit_post},
       '/local/delete/:localId': {POST: this.local_delete_post},
 
-      '/vacina': {GET: this.vacina_view_get},
-      '/vacina/view': {GET: this.vacina_view_get},
+      '/vacina': {GET: this.vacina_list_get},
+      '/vacina/list': {GET: this.vacina_list_get},
       '/vacina/add': {GET: this.vacina_add_get, POST: this.vacina_add_post},
       '/vacina/edit/:vacinaId': {GET: this.vacina_edit_get, POST: this.vacina_edit_post},
       '/vacina/delete/:vacinaId': {POST: this.vacina_delete_post}
@@ -36,7 +38,34 @@ class AdminController extends BaseController {
 
   dashboard_get(req, res) {
     const pacientes = Paciente.find();
-    res.render('admin/dashboard', {pacientes: pacientes});
+    const locais = Local.find();
+    const vacinas = Vacina.find()
+
+    res.render('admin/dashboard/main', {pacientes, locais, vacinas});
+  }
+
+  vacinar_post(req, res) {
+    if(!req.body.vacina || !req.body.pacientes || !req.body.pacientes.length) {
+      return res.redirect("/admin");
+    }
+
+    req.body.pacientes.forEach(pacienteId => {
+      const paciente = Paciente.find({"paciente.id": pacienteId}, true);
+
+      if(paciente.vacinadoCom &&  paciente.vacinadoCom != parseInt(req.body.vacina)) return;
+      paciente.vacinadoCom = parseInt(req.body.vacina);
+
+      if(!paciente.statusVacinacao) {
+        paciente.statusVacinacao = 0;
+      }
+
+      if(paciente.statusVacinacao <2) paciente.statusVacinacao++;
+
+
+      paciente.save();
+    });
+
+    res.redirect("/admin");
   }
 
   atualizar_post(req, res) {
@@ -60,9 +89,9 @@ class AdminController extends BaseController {
 
   /* CRUD LOCAL */
 
-  local_view_get(req, res) {
-    const locais = Local.find()
-    res.render('admin/local/view', {locais: locais});
+  local_list_get(req, res) {
+    const locais = Local.find();
+    res.render('admin/local/list', {locais: locais});
   }
 
   local_add_get(req, res) {
@@ -73,7 +102,7 @@ class AdminController extends BaseController {
     const local = new Local({nome: req.body.nome, endereco: req.body.endereco});
     local.save();
 
-    res.redirect('/admin/local/view');
+    res.redirect('/admin/local/list');
   }
 
   local_edit_get(req, res) {
@@ -90,22 +119,22 @@ class AdminController extends BaseController {
     local.endereco = req.body.endereco;
     local.save();
     
-    res.redirect('/admin/local/view');
+    res.redirect('/admin/local/list');
   }
 
   local_delete_post(req, res) {
     const id = req.params.localId;
     Local.delete(id);
 
-    res.redirect('/admin/local/view');
+    res.redirect('/admin/local/list');
   }
   /* /CRUD LOCAL */
 
   /* CRUD VACINA */
 
-  vacina_view_get(req, res) {
-    const vacinas = Vacina.find()
-    res.render('admin/vacina/view', {vacinas: vacinas});
+  vacina_list_get(req, res) {
+    const vacinas = Vacina.find();
+    res.render('admin/vacina/list', {vacinas: vacinas});
   }
 
   vacina_add_get(req, res) {
@@ -121,7 +150,7 @@ class AdminController extends BaseController {
 
     vacina.save();
 
-    res.redirect('/admin/vacina/view');
+    res.redirect('/admin/vacina/list');
   }
 
   vacina_edit_get(req, res) {
@@ -139,14 +168,14 @@ class AdminController extends BaseController {
     vacina.intervaloEntreDoses = req.body.intervaloEntreDoses;
     vacina.save();
     
-    res.redirect('/admin/vacina/view');
+    res.redirect('/admin/vacina/list');
   }
 
   vacina_delete_post(req, res) {
     const id = req.params.vacinaId;
     Vacina.delete(id);
 
-    res.redirect('/admin/vacina/view');
+    res.redirect('/admin/vacina/list');
   }
   /* /CRUD VACINA */
 }

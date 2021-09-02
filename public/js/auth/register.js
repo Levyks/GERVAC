@@ -54,10 +54,4 @@ $(() => {
       $("#passwordConfirmInput")[0].setCustomValidity("");
     }
   })
-
-  $('#registerForm').on('submit', (e) => {
-    console.log ( $("#password") );
-    console.log ( $("#passwordConfirm") );
-    $("#passwordConfirm")[0].setCustomValidity("Parado aí");
-  });
 });

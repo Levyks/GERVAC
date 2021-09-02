@@ -1,5 +1,6 @@
 const Usuario = require('./Usuario');
 const BaseModel = require('./BaseModel');
+const Vacina = require('./Vacina');
 
 class Paciente extends Usuario { 
   static table = 'paciente';
@@ -16,6 +17,12 @@ class Paciente extends Usuario {
     this.statusVacinacao = data.statusVacinacao;
     this.vacinadoCom = data.vacinadoCom;
     this.agendadoPara = data.agendadoPara;
+  }
+
+  toJSON() {
+    const obj = Object.assign({}, this);
+    delete obj.password;
+    return obj;
   }
 
   static formatFormData(formData) {
@@ -54,17 +61,23 @@ class Paciente extends Usuario {
   }
 
   statusVacinadoStr(){
-    switch(this.statusVacinacao){
-      case 1:
-        return "D1";
-        break;
-      case 2:
-        return "D2";
-        break;
-      default:
-        return "Não";
-        break;
+    if(this.vacinadoCom) {
+      const vacina = Vacina.find({id: this.vacinadoCom}, true);
+      switch(this.statusVacinacao){
+        case 1:
+          return `D1(${vacina.fabricante})`;
+          break;
+        case 2:
+          return `D2(${vacina.fabricante})`;
+          break;
+        default:
+          return "Não";
+          break;
+      }
+    } else {
+      return "Não";
     }
+    
   }
   
 }

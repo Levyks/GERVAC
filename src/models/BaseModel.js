@@ -72,12 +72,11 @@ class BaseModel {
     });
     
     sql += ' WHERE id = ' + this.id + ';';
-    console.log(sql)
+    
     db.prepare(sql).run(values);
   }
 
   save() {
-    console.log(this, this.constructor.idField)
     if(this.id) {
       return this.update();
     } else {

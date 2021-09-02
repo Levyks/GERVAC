@@ -1,0 +1,95 @@
+<script id="esbelto">
+  let include = getInclude();
+  let {pacientes, vacinas, locais} = getVariables();
+  const pacientesObj = {};
+  pacientes.forEach(paciente => {
+    pacientesObj[paciente.id] = paciente;
+  });
+  const vacinasObj = {};
+  vacinas.forEach(vacina => {
+    vacinasObj[vacina.id] = vacina;
+  });
+</script>
+
+<head>
+  {include('../../partials/head.html', {title: "GERVAC | Administração", scripts: ['/js/admin/dashboard.js']})}
+</head>
+
+<body>
+  <div class="app-wrapper">
+    {include('../navbar.html', {active: "dashboard"})}
+    <div class="container app-container text-center mt-2">
+      <form id="alterar-form">
+        <h3>População Cadastrada</h3>
+        <div class="d-flex">
+          <button name="action" class="btn btn-outline-success me-2" type="submit" value="vacinar">Vacinar</button>
+            <button name="action" class="btn btn-outline-primary" type="submit" value="agendar">Agendar</button>
+        </div>
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Nome</th>
+              <th scope="col">Idade</th>
+              <th scope="col">Comorbidade</th>
+              <th scope="col">Vacinado</th>
+              <th scope="col">Agendado</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each pacientes as paciente}
+              <tr>
+                <td><input name="select-pacientes[]" class="form-check-input paciente-check" type="checkbox" value="{paciente.id}"></td>
+                <td>{paciente.nome}</td>
+                <td>{paciente.calcIdade()}</td>
+                <td>{paciente.comorbidade ? "Sim" : "Não"}</td>
+                <td>{paciente.statusVacinadoStr()}</td>
+                <td>{paciente.agendadoPara ? "Sim" : "Não"}</td>
+                <td><button class="btn btn-primary py-1">Mais info</button></td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal "Vacinar"-->
+  <div class="modal fade" id="modal-vacinar" tabindex="-1">
+    <div class="modal-dialog">
+      <form method="POST" action="/admin/vacinar">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Vacinar</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="w-100 text-center">
+              <strong id="contagem-pacientes-vacinar">X pacientes selecionados</strong>
+            </div>
+            <div class="mb-3">
+              <label for="vacina-select" class="form-label">Vacina</label>
+              <select id="vacina-select" class="form-select" name="vacina" required>
+                <option value selected>Selecione a vacina</option>
+                {#each vacinas as vacina}
+                  <option value="{vacina.id}">{vacina.fabricante}</option>
+                {/each}
+              </select>
+            </div>
+            <div id="hidden-inputs" class="d-none"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Vacinar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!--/ Modal "Vacinar"-->
+
+<script>
+  let pacientes = JSON.parse('{@html JSON.stringify(pacientesObj)}');
+  let vacinas = JSON.parse('{@html JSON.stringify(vacinasObj)}');  
+</script>
+</body>

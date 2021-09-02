@@ -56,8 +56,6 @@ class PacienteController extends BaseController {
     const paciente = Paciente.find({usuarioId: req.user.id}, true);
     if(!paciente) return res.sendStatus(404);
 
-    console.log(paciente);
-
     res.render('paciente/edit', {
       values: {
         nome: paciente.nome,
