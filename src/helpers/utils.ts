@@ -1,5 +1,5 @@
 class Utils {
-  static formatarTelefone(numero) {
+  static formatarTelefone(numero: string): string {
     numero = numero.replace(/\D/g, "");
     numero = numero.replace(/^0/, "");
     if (numero.length > 10) {
@@ -17,4 +17,4 @@ class Utils {
 }
 
 
-module.exports = Utils
+export default Utils;
