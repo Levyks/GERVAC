@@ -5,7 +5,7 @@ import BaseController from './BaseController';
 import isAuthenticated from '../middleware/isAuthenticated';
 import isAuthenticatedAdmin from '../middleware/isAuthenticatedAdmin';
 
-import {Paciente, Local, Vacina} from '../models';
+import {Paciente, Local, Vacina, Sessao} from '../models';
 
 import { getConnection } from 'typeorm';
 
@@ -22,6 +22,7 @@ class AdminController extends BaseController {
       {path: '/dashboard', method: 'get', callback: this.dashboard_get},
 
       {path: '/vacinar', method: 'post', callback: this.vacinar_post},
+      {path: '/agendar', method: 'post', callback: this.agendar_post},
 
       {path: '/local', method: 'get', callback: this.local_list_get},
       {path: '/local/list', method: 'get', callback: this.local_list_get},
@@ -67,9 +68,42 @@ class AdminController extends BaseController {
         paciente.statusVacinacao = 0;
       }
 
+      paciente.agendadoPara = null;
+
       if(paciente.statusVacinacao <2) paciente.statusVacinacao++;
 
       connection.getRepository(Paciente).save(paciente);
+    });
+
+    res.redirect("/admin");
+  }
+
+  async agendar_post(req: express.Request, res: express.Response) {
+    if(!req.body.local || !req.body.data || !req.body.pacientes || !req.body.pacientes.length) {
+      return res.redirect("/admin");
+    }
+    const connection = getConnection();
+    const repLocal = connection.getRepository(Local);
+    const repSessao = connection.getRepository(Sessao);
+    const repPaciente = connection.getRepository(Paciente);
+
+    const data = req.body.data;
+    const local = await repLocal.findOne({id: req.body.local});
+
+    let sessao = await repSessao.findOne({data: data + ' 00:00:00.000', local});
+
+    if(!sessao) {
+      sessao = new Sessao();
+      await sessao.generateId();
+      sessao.data = new Date(data + 'T00:00');
+      sessao.local = local;
+      repSessao.save(sessao);
+    } 
+
+    req.body.pacientes.forEach(async (pacienteId: number) => {
+      const paciente = await repPaciente.findOne({id: pacienteId});
+      paciente.agendadoPara = sessao;
+      repPaciente.save(paciente);
     });
 
     res.redirect("/admin");

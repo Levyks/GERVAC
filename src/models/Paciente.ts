@@ -1,5 +1,6 @@
 import Usuario from './Usuario';
 import Vacina from './Vacina';
+import Sessao from './Sessao';
 
 import { ChildEntity, Column, PrimaryColumn, ManyToOne } from "typeorm";
 
@@ -23,6 +24,11 @@ export default class Paciente extends Usuario {
     eager: true
   })
   vacinadoCom: Vacina;
+
+  @ManyToOne(() => Sessao, sessao => sessao.pacientes, {
+    eager: true
+  })
+  agendadoPara: Sessao;
 
   toJSON(): Object {
     const obj = Object.assign({}, this);

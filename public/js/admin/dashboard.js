@@ -1,25 +1,36 @@
 $(() => {
   $("#alterar-form").on('submit', (e) => {
     e.preventDefault();
+
+    const action = e.originalEvent.submitter.value;
  
     const numPacientes = pacientesSelecionados.length;
-    $("#contagem-pacientes-vacinar").text(`${numPacientes} paciente${numPacientes>1 ? 's' : ''} selecionado${numPacientes>1 ? 's' : ''}`);
+    $(".contagem-pacientes").text(`${numPacientes} paciente${numPacientes>1 ? 's' : ''} selecionado${numPacientes>1 ? 's' : ''}`);
 
+    $(".hidden-inputs").html('');
     pacientesSelecionados.forEach(paciente => {
-      $("#hidden-inputs").append(`<input name="pacientes[]" type="checkbox" value="${paciente.id}" checked>`);
+      $(".hidden-inputs").append(`<input name="pacientes[]" type="checkbox" value="${paciente.id}" checked>`);
     });
   
-    const selectVacina = $("#vacina-select")
-    selectVacina.html('<option value selected>Selecione a vacina</option>');
-    if(vacinaUsada) {
-      selectVacina.append(`<option value="${vacinas[vacinaUsada].id}">${vacinas[vacinaUsada].fabricante}</option>`);
-    } else {
-      Object.values(vacinas).forEach(vacina => {
-        selectVacina.append(`<option value="${vacina.id}">${vacina.fabricante}</option>`);
-      });
+    if(action == 'vacinar') {
+      const selectVacina = $("#vacina-select")
+      selectVacina.html('<option value selected>Selecione a vacina</option>');
+      if(vacinaUsada) {
+        selectVacina.append(`<option value="${vacinas[vacinaUsada].id}">${vacinas[vacinaUsada].fabricante}</option>`);
+      } else {
+        Object.values(vacinas).forEach(vacina => {
+          selectVacina.append(`<option value="${vacina.id}">${vacina.fabricante}</option>`);
+        });
+      }
     }
-
-    $("#modal-vacinar").modal('show'); 
+    
+    if(action == 'vacinar') {
+      $("#modal-vacinar").modal('show'); 
+    } else if(action=='agendar') {
+      $("#modal-agendar").modal('show');
+    }
+    
+     
   });
 
   let pacientesSelecionados = [];

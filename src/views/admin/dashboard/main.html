@@ -9,6 +9,10 @@
   vacinas.forEach(vacina => {
     vacinasObj[vacina.id] = vacina;
   });
+  const locaisObj = {};
+  locais.forEach(local => {
+    locaisObj[local.id] = local;
+  });
 </script>
 
 <head>
@@ -45,7 +49,7 @@
                 <td>{paciente.calcIdade()}</td>
                 <td>{paciente.comorbidade ? "Sim" : "Não"}</td>
                 <td>{paciente.statusVacinadoStr()}</td>
-                <td>{paciente.agendadoPara ? "Sim" : "Não"}</td>
+                <td>{paciente.agendadoPara ? paciente.agendadoPara.data.toLocaleDateString() : "Não"}</td>
                 <td><button class="btn btn-primary py-1">Mais info</button></td>
               </tr>
             {/each}
@@ -66,18 +70,15 @@
           </div>
           <div class="modal-body">
             <div class="w-100 text-center">
-              <strong id="contagem-pacientes-vacinar">X pacientes selecionados</strong>
+              <strong class="contagem-pacientes">X pacientes selecionados</strong>
             </div>
             <div class="mb-3">
               <label for="vacina-select" class="form-label">Vacina</label>
               <select id="vacina-select" class="form-select" name="vacina" required>
                 <option value selected>Selecione a vacina</option>
-                {#each vacinas as vacina}
-                  <option value="{vacina.id}">{vacina.fabricante}</option>
-                {/each}
               </select>
             </div>
-            <div id="hidden-inputs" class="d-none"></div>
+            <div class="d-none hidden-inputs"></div>
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Vacinar</button>
@@ -88,8 +89,46 @@
   </div>
   <!--/ Modal "Vacinar"-->
 
+    <!-- Modal "Agendar"-->
+    <div class="modal fade" id="modal-agendar" tabindex="-1">
+      <div class="modal-dialog">
+        <form method="POST" action="/admin/agendar">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Agendar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="w-100 text-center">
+                <strong class="contagem-pacientes">X pacientes selecionados</strong>
+              </div>
+              <div class="mb-3">
+                <label for="local-select" class="form-label">Local</label>
+                <select id="local-select" class="form-select" name="local" required>
+                  <option value selected>Selecione o local</option>
+                  {#each locais as local}
+                    <option value="{local.id}">{local.nome}</option>
+                  {/each}
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="date-input" class="form-label">Data</label>
+                <input type="date" id="date-input" name="data" class="form-control">
+              </div>
+              <div class="d-none hidden-inputs"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Agendar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--/ Modal "Agendar"-->
+
 <script>
   let pacientes = JSON.parse('{@html JSON.stringify(pacientesObj)}');
-  let vacinas = JSON.parse('{@html JSON.stringify(vacinasObj)}');  
+  let vacinas = JSON.parse('{@html JSON.stringify(vacinasObj)}'); 
+  let locais = JSON.parse('{@html JSON.stringify(locaisObj)}'); 
 </script>
 </body>

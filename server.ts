@@ -28,8 +28,7 @@ const PORT = process.env.PORT || 3000;
 createConnection({
   type: "better-sqlite3",
   database: "./data/db.sqlite",
-  entities: Models,
-  synchronize: true
+  entities: Models
 }).then(() => {
   app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

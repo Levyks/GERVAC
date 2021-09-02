@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import BaseModel from "./BaseModel";
+
+import Sessao from './Sessao';
 
 @Entity()
 export default class Local extends BaseModel { 
@@ -13,5 +15,6 @@ export default class Local extends BaseModel {
   @Column()
   endereco: string;
 
-
+  @OneToMany(() => Sessao, sessao => sessao.local)
+  sessoes: Sessao[];
 }
