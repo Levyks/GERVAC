@@ -7,7 +7,7 @@ import isAuthenticatedAdmin from '../middleware/isAuthenticatedAdmin';
 
 import {Paciente, Local, Vacina} from '../models';
 
-import { Admin, getConnection } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 class AdminController extends BaseController {
   baseUrl = '/admin';
@@ -26,7 +26,7 @@ class AdminController extends BaseController {
       {path: '/local', method: 'get', callback: this.local_list_get},
       {path: '/local/list', method: 'get', callback: this.local_list_get},
       {path: '/local/add', method: 'get', callback: this.local_add_get},
-      {path: '/local/add', method: 'get', callback: this.local_add_post},
+      {path: '/local/add', method: 'post', callback: this.local_add_post},
       {path: '/local/edit/:localId', method: 'get', callback: this.local_edit_get},
       {path: '/local/edit/:localId', method: 'post', callback: this.local_edit_post},
       {path: '/local/delete/:localId', method: 'post', callback: this.local_delete_post},
@@ -34,18 +34,18 @@ class AdminController extends BaseController {
       {path: '/vacina', method: 'get', callback: this.vacina_list_get},
       {path: '/vacina/list', method: 'get', callback: this.vacina_list_get},
       {path: '/vacina/add', method: 'get', callback: this.vacina_add_get},
-      {path: '/vacina/add', method: 'get', callback: this.vacina_add_post},
+      {path: '/vacina/add', method: 'post', callback: this.vacina_add_post},
       {path: '/vacina/edit/:vacinaId', method: 'get', callback: this.vacina_edit_get},
       {path: '/vacina/edit/:vacinaId', method: 'post', callback: this.vacina_edit_post},
       {path: '/vacina/delete/:vacinaId', method: 'post', callback: this.vacina_delete_post},
     ]);
   }
 
-  dashboard_get(req: express.Request, res: express.Response) {
+    async dashboard_get(req: express.Request, res: express.Response) {
     const connection = getConnection();
-    const pacientes = connection.getRepository(Paciente).find();
-    const locais = connection.getRepository(Local).find();
-    const vacinas = connection.getRepository(Vacina).find();
+    const pacientes = await connection.getRepository(Paciente).find();
+    const locais = await connection.getRepository(Local).find();
+    const vacinas = await connection.getRepository(Vacina).find();
 
     res.render('admin/dashboard/main', {pacientes, locais, vacinas});
   }

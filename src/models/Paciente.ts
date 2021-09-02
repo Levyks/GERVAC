@@ -24,12 +24,29 @@ export default class Paciente extends Usuario {
   })
   vacinadoCom: Vacina;
 
-  toJSON() {
+  toJSON(): Object {
     const obj = Object.assign({}, this);
     delete obj.password;
     return obj;
   }
 
+  statusVacinadoStr(): string {
+    if(this.vacinadoCom) {
+      switch(this.statusVacinacao){
+        case 1:
+          return `D1(${this.vacinadoCom.fabricante})`;
+          break;
+        case 2:
+          return `D2(${this.vacinadoCom.fabricante})`;
+          break;
+        default:
+          return "Não";
+          break;
+      }
+    } else {
+      return "Não";
+    }
+  }
 }
 
 module.exports = Paciente;

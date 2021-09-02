@@ -28,7 +28,6 @@ const PORT = process.env.PORT || 3000;
 createConnection({
   type: "better-sqlite3",
   database: "./data/db.sqlite",
-  dropSchema: true,
   entities: Models,
   synchronize: true
 }).then(() => {
