@@ -2,6 +2,7 @@
   "name": "gervac",
   "version": "1.0.0",
   "description": "",
+  "bin": "dist/server.js",
   "main": "server.ts",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -27,6 +28,17 @@
     "dev": "nodemon . -i public/",
     "build": "tsc -p .",
     "start": "node dist/server.js"
+  },
+  "pkg": {
+    "scripts": "dist/**/*.js",
+    "assets": [
+      "./src/views/**/*",
+      "./public/**/*",
+      "./data/**/*",
+      ".env.example",
+      ".env"
+    ],
+    "outputPath": "executables"
   },
   "author": "",
   "license": "ISC"
