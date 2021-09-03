@@ -1,11 +1,10 @@
 require('dotenv-safe').config();
 
-const esbelto = require('esbelto');
-
 import { createConnection } from "typeorm";
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import Routes from './src/routes/Routes';
+import esbelto from 'esbelto';
 
 import Models from './src/models';
 
