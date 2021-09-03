@@ -44,6 +44,7 @@ $(() => {
     } else {
       numero = numero.replace(/^(\d*)/, "($1");
     } 
+    if(numero === '(') return '';
     return numero;  
   }
 
