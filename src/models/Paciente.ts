@@ -80,7 +80,7 @@ export default class Paciente extends Usuario {
       statusHtml += `<p>Local: ${this.agendadoPara.local.nome}<br>`;
       statusHtml += `Endereço: ${this.agendadoPara.local.endereco}</p>`;
     } else {
-      statusHtml += `<p>Aguarde pelo agendamento da sua ${this.statusVacinacao+1}º dose.</p>`
+      statusHtml += `<p><strong>Aguarde pelo agendamento da sua ${this.statusVacinacao+1}º dose.</strong></p>`
     }
 
     return statusHtml;
