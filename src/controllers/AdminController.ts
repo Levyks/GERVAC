@@ -24,6 +24,9 @@ class AdminController extends BaseController {
       {path: '/vacinar', method: 'post', callback: this.vacinar_post},
       {path: '/agendar', method: 'post', callback: this.agendar_post},
 
+      {path: '/alterar-senha/:pacienteId', method: 'get', callback: this.alterar_senha_get},
+      {path: '/alterar-senha/:pacienteId', method: 'post', callback: this.alterar_senha_post},
+
       {path: '/local', method: 'get', callback: this.local_list_get},
       {path: '/local/list', method: 'get', callback: this.local_list_get},
       {path: '/local/add', method: 'get', callback: this.local_add_get},
@@ -107,6 +110,26 @@ class AdminController extends BaseController {
     });
 
     res.redirect("/admin");
+  }
+
+  async alterar_senha_get(req: express.Request, res: express.Response) {
+    const repository = getConnection().getRepository(Paciente);
+    const id = parseInt(req.params.pacienteId);
+    const paciente = await repository.findOne({id});
+    if(!paciente) return res.status(404).redirect('/admin');
+    res.render("admin/dashboard/alterar-senha", {paciente});
+  }
+
+  async alterar_senha_post(req: express.Request, res: express.Response) {
+    if(!req.body.password) return res.status(400).redirect('/admin');
+
+    const repository = getConnection().getRepository(Paciente);
+    const id = parseInt(req.params.pacienteId);
+    const paciente = await repository.findOne({id});
+    paciente.setPassword(req.body.password);
+    
+    await repository.save(paciente);
+    res.status(204).redirect('/admin');
   }
 
   /* CRUD LOCAL */

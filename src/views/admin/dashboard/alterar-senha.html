@@ -1,0 +1,31 @@
+<script id="esbelto">
+  let include = getInclude();
+  let { paciente } = getVariables();
+</script>
+
+<head>
+  {include('../../partials/head.html', {title: "GERVAC | Administração", scripts: ["/js/admin/alterar-senha.js"]})}
+</head>
+
+<body>
+  <div class="app-wrapper">
+    {include('../navbar.html', {active: "dashboard"})}
+    <div class="container app-container text-center mt-2">
+      <h3>Alterar senha de</h3>
+      <h4><strong>{paciente.nome}</strong></h4>
+      <form class="text-start form-pequeno" method="POST">
+        <div class="mb-3">
+          <label for="password-input" class="form-label">Nova senha</label>
+          <input class="form-control password-input" type="password" name="password" id="password-input" required>
+        </div>
+        <div class="mb-3">
+          <label for="confirm-password-input" class="form-label">Confirme a senha</label>
+          <input class="form-control password-input" type="password" name="confirm-password" id="confirm-password-input" required>
+        </div>
+        <div class="w-100 text-center">
+          <button type="submit" class="btn btn-primary">Alterar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
