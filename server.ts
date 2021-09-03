@@ -23,6 +23,11 @@ app.use(express.static('./public'));
 
 app.use('/', Routes);
 
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error(err.stack);
+  res.status(500).render('500');
+});
+
 const PORT = process.env.PORT || 3000;
 
 createConnection({
