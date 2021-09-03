@@ -53,6 +53,38 @@ export default class Paciente extends Usuario {
       return "Não";
     }
   }
+
+  getStatusHtml(): string {
+    let statusHtml = "<p>";
+
+    if(this.statusVacinacao) {
+      statusHtml += `Você já tomou a ${this.statusVacinacao}º dose`;
+    } else {
+      if (this.agendadoPara) {
+        statusHtml += "Boas notícias";
+      } else {
+        statusHtml += "Seu cadastro está validado";
+      }
+    }
+
+    statusHtml += "</p>";
+
+    if(this.vacinadoCom && this.vacinadoCom.dosesNecessarias == this.statusVacinacao) {
+      statusHtml += '<p><strong>Sua vacinação está completa.</strong></p>';
+      return statusHtml;
+    }
+
+    if(this.agendadoPara) {
+      statusHtml += `<p><strong>Sua ${this.statusVacinacao+1}º dose está agendada</strong></p>`;
+      statusHtml += `<p>Data: ${this.agendadoPara.data.toLocaleDateString()}</p>`;
+      statusHtml += `<p>Local: ${this.agendadoPara.local.nome}<br>`;
+      statusHtml += `Endereço: ${this.agendadoPara.local.endereco}</p>`;
+    } else {
+      statusHtml += `<p>Aguarde pelo agendamento da sua ${this.statusVacinacao+1}º dose.</p>`
+    }
+
+    return statusHtml;
+  }
 }
 
 module.exports = Paciente;

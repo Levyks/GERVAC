@@ -30,32 +30,9 @@ class PacienteController extends BaseController {
     const paciente = await repository.findOne({id: req.user.id});
     if(!paciente) return res.sendStatus(404);
 
-    let statusMessage;
+    paciente.telefone = Utils.formatarTelefone(paciente.telefone);
 
-    if(false /*paciente.agendadoPara*/) {
-
-    } else {
-      switch(paciente.statusVacinacao) {
-        case 1:
-          statusMessage = "Você já tomou a 1º dose, aguarde pelo agendamento da sua 2º dose";
-          break;
-        case 2:
-          statusMessage = "Você já tomou a 2º dose";
-          break;
-        default:
-          statusMessage = "Seu cadastro está validado, aguarde pelo agendamento da sua 1º dose";
-          break;
-      }
-    }
-
-    res.render('paciente/dashboard', {
-      paciente: {
-        nome: paciente.nome,
-        email: paciente.email,
-        telefone: Utils.formatarTelefone(paciente.telefone)
-      },
-      statusMessage
-    });
+    res.render('paciente/dashboard', {paciente});
   }
 
   async edit_get(req: express.Request, res: express.Response) {

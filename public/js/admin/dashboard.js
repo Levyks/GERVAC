@@ -16,7 +16,7 @@ $(() => {
       const selectVacina = $("#vacina-select")
       selectVacina.html('<option value selected>Selecione a vacina</option>');
       if(vacinaUsada) {
-        selectVacina.append(`<option value="${vacinas[vacinaUsada].id}">${vacinas[vacinaUsada].fabricante}</option>`);
+        selectVacina.append(`<option value="${vacinaUsada.id}">${vacinaUsada.fabricante}</option>`);
       } else {
         Object.values(vacinas).forEach(vacina => {
           selectVacina.append(`<option value="${vacina.id}">${vacina.fabricante}</option>`);

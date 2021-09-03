@@ -27,8 +27,10 @@ export default class BaseController {
     const middleware = this.middleware || this.midlewareNoop;
 
     routes.forEach(route => {
-      this.router[route.method](route.path, middleware, (req: express.Request, res: express.Response) => {
-        return route.callback.call(this, req, res);
+      this.router[route.method](route.path, middleware, (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        const called = route.callback.call(this, req, res, next);
+        if(called.then) called.catch((err: any) => next(err));
+        return called;
       });
     })
   }

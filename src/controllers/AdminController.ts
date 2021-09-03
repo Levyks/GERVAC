@@ -45,7 +45,7 @@ class AdminController extends BaseController {
     ]);
   }
 
-    async dashboard_get(req: express.Request, res: express.Response) {
+  async dashboard_get(req: express.Request, res: express.Response) {
     const connection = getConnection();
     const pacientes = await connection.getRepository(Paciente).find();
     const locais = await connection.getRepository(Local).find();
