@@ -78,8 +78,28 @@ class PacienteController extends BaseController {
     });
   }
 
-  edit_post(req: express.Request, res: express.Response) {}
+  async edit_post(req: express.Request, res: express.Response) {
+    const repository = getConnection().getRepository(Paciente);
+    const paciente = await repository.findOne({id: req.user.id});
 
+    if(!paciente) return res.sendStatus(404);
+
+    paciente.nome = req.body.nome;
+    paciente.email = req.body.email;
+    paciente.telefone = req.body.telefone;
+    paciente.telefone = req.body.telefone.replace( /\D/g , "");
+    paciente.endereco = req.body.endereco;
+
+    paciente.comorbidade = req.body.comorbidade == 1;
+    paciente.profissao = req.body.profissao;
+
+    if(req.body.password) {
+      paciente.setPassword(req.body.password);
+    }
+
+    await repository.save(paciente);
+    res.redirect('/paciente');
+  }
 }
 
 export default PacienteController;
