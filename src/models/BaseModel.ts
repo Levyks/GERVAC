@@ -18,7 +18,7 @@ export default class BaseModel {
     thisAi.ultimoId += 1;
     this.id = thisAi.ultimoId;
 
-    aiRep.save(thisAi);
+    await aiRep.save(thisAi);
   }
 
 }

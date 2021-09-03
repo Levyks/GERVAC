@@ -75,7 +75,7 @@ class AdminController extends BaseController {
 
       if(paciente.statusVacinacao <2) paciente.statusVacinacao++;
 
-      connection.getRepository(Paciente).save(paciente);
+      await connection.getRepository(Paciente).save(paciente);
     });
 
     res.redirect("/admin");
@@ -100,13 +100,13 @@ class AdminController extends BaseController {
       await sessao.generateId();
       sessao.data = new Date(data + 'T00:00');
       sessao.local = local;
-      repSessao.save(sessao);
+      await repSessao.save(sessao);
     } 
 
     req.body.pacientes.forEach(async (pacienteId: number) => {
       const paciente = await repPaciente.findOne({id: pacienteId});
       paciente.agendadoPara = sessao;
-      repPaciente.save(paciente);
+      await repPaciente.save(paciente);
     });
 
     res.redirect("/admin");
