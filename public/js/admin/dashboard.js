@@ -29,8 +29,6 @@ $(() => {
     } else if(action=='agendar') {
       $("#modal-agendar").modal('show');
     }
-    
-     
   });
 
   let pacientesSelecionados = [];
@@ -60,5 +58,29 @@ $(() => {
     pacientesSelecionados = novoPacientesSelecionados;
   });
 
-  $(".paciente-check")[0].setCustomValidity("Selecione ao menos um paciente");    
+  $(".paciente-check")[0].setCustomValidity("Selecione ao menos um paciente"); 
+  
+  $('.mais-info-btn').on('click', e => {
+    const paciente = pacientes[e.target.value];
+    
+    $("#mais-info-nome-input").val(paciente.nome);
+    $("#mais-info-cpf-input").val(paciente.cpf);
+    $("#mais-info-email-input").val(paciente.email);
+    $("#mais-info-telefone-input").val(paciente.telefone);
+    $("#mais-info-nascimento-input").val(paciente.nascimento.split('T')[0]);
+    $("#mais-info-endereco-input").val(paciente.endereco);
+    $("#mais-info-comorbidade-input").val(paciente.comorbidade ? 'Sim' : 'Não');
+    $("#mais-info-profissao-input").val(paciente.profissao);
+
+    $("#modal-mais-info").modal('show');         
+  });
+
+  function formatarCpf(cpf) {
+    cpf = cpf.replace( /\D/g , "");
+    cpf = cpf.substr(0, 11);
+    cpf = cpf.replace( /(\d{3})(\d)/ , "$1.$2");
+    cpf = cpf.replace( /(\d{3})(\d)/ , "$1.$2");
+    cpf = cpf.replace( /(\d{3})(\d{1,2})$/ , "$1-$2");
+    return cpf;
+  }
 });

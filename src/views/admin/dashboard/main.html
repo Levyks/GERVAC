@@ -50,7 +50,7 @@
                 <td>{paciente.comorbidade ? "Sim" : "Não"}</td>
                 <td>{paciente.statusVacinadoStr()}</td>
                 <td>{paciente.agendadoPara ? paciente.agendadoPara.data.toLocaleDateString() : "Não"}</td>
-                <td><button class="btn btn-primary py-1">Mais info</button></td>
+                <td><button type="button" class="btn btn-primary mais-info-btn py-1" value="{paciente.id}">Mais info</button></td>
               </tr>
             {/each}
           </tbody>
@@ -58,6 +58,54 @@
       </form>
     </div>
   </div>
+
+  <!-- Modal "Mais Info"-->
+  <div class="modal fade" id="modal-mais-info" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Mais informações</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="mais-info-nome-input" class="form-label">Nome</label>
+            <input class="form-control" id="mais-info-nome-input" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="mais-info-cpf-input" class="form-label">CPF</label>
+            <input class="form-control" id="mais-info-cpf-input" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="mais-info-email-input" class="form-label">E-mail</label>
+            <input class="form-control" id="mais-info-email-input" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="mais-info-telefone-input" class="form-label">Telefone</label>
+            <input class="form-control" id="mais-info-telefone-input" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="mais-info-nascimento-input" class="form-label">Nascimento</label>
+            <input type="date" class="form-control" id="mais-info-nascimento-input" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="mais-info-endereco-input" class="form-label">Endereço</label>
+            <input class="form-control" id="mais-info-endereco-input" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="mais-info-comorbidade-input" class="form-label">Comorbidade</label>
+            <input class="form-control" id="mais-info-comorbidade-input" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="mais-info-profissao-input" class="form-label">Profissão</label>
+            <input class="form-control" id="mais-info-profissao-input" readonly>
+          </div>
+          <a class="btn btn-primary">Alterar senha</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Modal "Mais Info"-->
 
   <!-- Modal "Vacinar"-->
   <div class="modal fade" id="modal-vacinar" tabindex="-1">
