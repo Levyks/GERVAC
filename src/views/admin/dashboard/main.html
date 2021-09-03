@@ -49,7 +49,7 @@
                 <td>{paciente.calcIdade()}</td>
                 <td>{paciente.comorbidade ? "Sim" : "Não"}</td>
                 <td>{paciente.statusVacinadoStr()}</td>
-                <td>{paciente.agendadoPara ? paciente.agendadoPara.data.toLocaleDateString() : "Não"}</td>
+                <td>{paciente.agendadoPara ? paciente.agendadoPara.getDataString() : "Não"}</td>
                 <td><button type="button" class="btn btn-primary mais-info-btn py-1" value="{paciente.id}">Mais info</button></td>
               </tr>
             {/each}

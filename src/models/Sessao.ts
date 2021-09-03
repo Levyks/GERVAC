@@ -21,4 +21,8 @@ export default class Sessao extends BaseModel {
 
   @OneToMany(() => Paciente, paciente => paciente.agendadoPara)
   pacientes: Paciente[];
+
+  getDataString(): string {
+    return this.data.toLocaleDateString('pt-br');
+  }
 }

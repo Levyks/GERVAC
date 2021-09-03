@@ -76,7 +76,7 @@ export default class Paciente extends Usuario {
 
     if(this.agendadoPara) {
       statusHtml += `<p><strong>Sua ${this.statusVacinacao+1}º dose está agendada</strong></p>`;
-      statusHtml += `<p>Data: ${this.agendadoPara.data.toLocaleDateString()}</p>`;
+      statusHtml += `<p>Data: ${this.agendadoPara.getDataString()}</p>`;
       statusHtml += `<p>Local: ${this.agendadoPara.local.nome}<br>`;
       statusHtml += `Endereço: ${this.agendadoPara.local.endereco}</p>`;
     } else {
